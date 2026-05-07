@@ -1,7 +1,7 @@
 package devcarlosmoura.github.io.e_commerce.controllers;
 
+import devcarlosmoura.github.io.e_commerce.dtos.LoginRequestDTO;
 import devcarlosmoura.github.io.e_commerce.dtos.LoginResponseDTO;
-import devcarlosmoura.github.io.e_commerce.dtos.LoginResquestDTO;
 import devcarlosmoura.github.io.e_commerce.dtos.RegisterRequestDTO;
 import devcarlosmoura.github.io.e_commerce.entities.User;
 import devcarlosmoura.github.io.e_commerce.services.AuthService;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +28,8 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
 
-    @PostMapping
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginResquestDTO request) {
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
        var usernamePassword = new UsernamePasswordAuthenticationToken(request.login(), request.password());
        var auth = authenticationManager.authenticate(usernamePassword);
        var token = tokenService.generateToken((User) Objects.requireNonNull(auth.getPrincipal()));

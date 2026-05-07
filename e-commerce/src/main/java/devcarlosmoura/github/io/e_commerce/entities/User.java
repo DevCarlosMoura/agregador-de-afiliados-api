@@ -32,10 +32,14 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == "ADMIN"){
-            return List.of(new SimpleGrantedAuthority("ROLE ADMIN"), new SimpleGrantedAuthority("ROLE USER"));
+        if (this.role == null) {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        String roleStr = this.role.toString().trim().toUpperCase();
+        if (roleStr.equals("ADMIN") || roleStr.equals("ROLE_ADMIN")) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
         } else {
-            return List.of(new SimpleGrantedAuthority("ROLE USER"));
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
         }
     }
 
